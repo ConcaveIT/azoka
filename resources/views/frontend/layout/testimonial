@@ -1,0 +1,66 @@
+<div class="testimonial_area testimonial_two mb-95">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title testi_title">
+                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <h2>Client testimonials</h2>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial_container">
+            <div class="row">
+                <div class="testimonial_carousel testimonial_column3 owl-carousel">
+                    <div class="col-lg-4">
+                        <div class="single_testimonial">
+                            <div class="testimonial_thumb">
+                                <img src="{{ asset('frontend')}}/img/about/testimonial1.png" alt="">
+                            </div>
+                            <div class="testimonial_content">
+                                <h3>orando BLoom</h3>
+                                <a href="https://hasthemes.com/">/demo@hasthemes.com</a>
+                                <p>Perfect Themes and the best of all that you have many options to choose! Best Support team ever!Very fast responding and experts on their fields! Thank you very much!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="single_testimonial">
+                            <div class="testimonial_thumb">
+                                <img src="{{ asset('frontend')}}/img/about/testimonial2.png" alt="">
+                            </div>
+                            <div class="testimonial_content">
+                                <h3>orando BLoom</h3>
+                                <a href="https://hasthemes.com/">/demo@posthemes.com</a>
+                                <p>Perfect Themes and the best of all that you have many options to choose! Best Support team ever!Very fast responding and experts on their fields! Thank you very much!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="single_testimonial">
+                            <div class="testimonial_thumb">
+                                <img src="{{ asset('frontend')}}/img/about/testimonial3.png" alt="">
+                            </div>
+                            <div class="testimonial_content">
+                                <h3>orando BLoom</h3>
+                                <a href="https://hasthemes.com/">/demo@hasthemes.com</a>
+                                <p>Perfect Themes and the best of all that you have many options to choose! Best Support team ever!Very fast responding and experts on their fields! Thank you very much!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="single_testimonial">
+                            <div class="testimonial_thumb">
+                                <img src="{{ asset('frontend')}}/img/about/testimonial1.png" alt="">
+                            </div>
+                            <div class="testimonial_content">
+                                <h3>orando BLoom</h3>
+                                <a href="https://hasthemes.com/">/demo@hasthemes.com</a>
+                                <p>Perfect Themes and the best of all that you have many options to choose! Best Support team ever!Very fast responding and experts on their fields! Thank you very much!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
