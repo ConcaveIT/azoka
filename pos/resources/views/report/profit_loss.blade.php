@@ -125,7 +125,8 @@
 						<p class="mt-2">Cheque <span class="float-right">{{number_format((float)$cheque_payment_sale, 2, '.', '')}}</span></p>
 						<p class="mt-2">Credit Card <span class="float-right">{{number_format((float)$credit_card_payment_sale, 2, '.', '')}}</span></p>
 						<p class="mt-2">Gift Card <span class="float-right">{{number_format((float)$gift_card_payment_sale, 2, '.', '')}}</span></p>
-						<p class="mt-2">SSL <span class="float-right">{{number_format((float)$WebSale, 2, '.', '')}}</span></p>
+						<p class="mt-2">SSL <span class="float-right">{{number_format((float)$WebSaleSSL, 2, '.', '')}}</span></p>
+						<p class="mt-2">COD <span class="float-right">{{number_format((float)$WebSaleCOD, 2, '.', '')}}</span></p>
 						<p class="mt-2">Deposit <span class="float-right">{{number_format((float)$deposit_payment_sale, 2, '.', '')}}</span></p>
 					</div>
 				</div>

@@ -158,11 +158,33 @@
 
                     </div>
                     @endif
+					
+					
+					<?php  ?>
+					
                     @if($data)
+					
                     <div class="shop_toolbar t_bottom">
-                        <div class="pagination">
-                            {{ $data->links() }}
-                        </div>
+					@php $slug = str_replace(' ','-',strtolower($shop->name)); @endphp
+                        
+						@if(!isset($_GET['show']))
+							<div class="pagination">
+								{{ $data->links() }}
+							</div>
+							<div class="pagination">
+								<a class="show_all" href="{{'/shop/'.$slug.'?show=all'}}">Show All</a>
+							</div>
+						@else
+							@if($_GET['show'] != 'all')
+							<div class="pagination">
+								{{ $data->links() }}
+							</div>
+							<div class="pagination">
+								<a class="show_all" href="{{'/shop/'.$slug.'?show=all'}}">Show All</a>
+							</div>
+							@endif
+						@endif
+
                     </div>
                     @endif
                 </div>

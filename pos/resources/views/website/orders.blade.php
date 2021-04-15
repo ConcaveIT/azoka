@@ -96,8 +96,15 @@
                                             {{  date('d M Y', strtotime($order->created_at)) }}
                                         </td>
                                         <td>
-                                            <a onclick="return confirm('Are you sure to delete ?')" href="{{ route('order-delete', $order->id) }}" class="btn btn-danger custom">Delete</a>
-                                            <a onclick="return confirm('Are you sure to cancel this order ?')" class="btn btn-warning custom" href="{{ route('order-cancel', $order->id) }}">Cancel</a>
+                                            
+											@if($order->status == 'Canceled') 
+										   <a onclick="return confirm('Are you sure to delete ?')" href="{{ route('order-delete', $order->id) }}" class="btn btn-danger custom">Delete</a>
+											@endif
+											
+                                           @if($order->status != 'Canceled')
+										   <a onclick="return confirm('Are you sure to cancel this order ?')" class="btn btn-warning custom" href="{{ route('order-cancel', $order->id) }}">Cancel</a>
+											@endif
+											
                                             <a class="btn btn-info custom" href="{{ route('order-details', $order->id) }}">Details</a> 
                                         </td>
 
@@ -182,7 +189,7 @@
                 },
                 "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
                 "lengthChange": true ,
-                "aaSorting": [[8,'desc']],
+                "aaSorting": [[1,'desc']],
 
             });
         </script>

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/generate-sitemap', function () {
 
-    \Spatie\Sitemap\SitemapGenerator::create('https://amarshop.com.bd')->writeToFile(public_path('sitemap.xml'));
+    \Spatie\Sitemap\SitemapGenerator::create('https://azoka.com.bd')->writeToFile(public_path('sitemap.xml'));
 
     echo 'Sitemap Generated';
 

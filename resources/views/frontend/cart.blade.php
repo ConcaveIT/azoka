@@ -87,14 +87,27 @@ border:1px solid #873a00;
                                    <td class="product_remove"><a href="/cart/remove/{{ $data['cart_id'] }}"><i class="fa fa-trash-o"></i></a></td>
                                     <td class="product_thumb"><a href="{{ route('product-details', [$product->category->slug, $product->slug]) }}"><img src="{{ productImage($product->image) }}" alt=""></a></td>
                                     <td class="product_name"><a href="{{ route('product-details', [$product->category->slug, $product->slug]) }}">{{ $product->name }}</a></td>
-                                    <td class="product-price">{{ $color ? $color->item_code : '' }}</td>
-                                    <td class="product-price">{{ $size ? $size->item_code : '' }}</td>
+									
+                                    <td class="product-price">
+									{{ $color ? $color->item_code : '' }}
+									@if($color) 
+										<input type="hidden" name="variant_qty" value="{{$color->qty}}" >
+									@endif
+									</td>
+						
+                                    <td class="product-price">
+									{{ $size ? $size->item_code : '' }}
+									@if($size) 
+										<input type="hidden" name="variant_qty" value="{{$size->qty}}" >
+									@endif
+									</td>
 
                                     <td class="product-price">BDT 
                                          {{ $cart_price = price_after_offer_or_not($product->id, $product->price, $product->starting_date, $product->last_date) + ($color ? $color->additional_price : 0) + ($size ? $size->additional_price : 0) + ($type ? $type->additional_price : 0) + ($weight ? $weight->additional_price : 0) }}
                                         
                                     </td>
-                                    <td class="product_quantity"><label>Quantity</label> <input min="1" max="10000" name="count[]" value="{{ $data['count'] }}" type="number"></td>
+									
+                                    <td class="product_quantity"><label>Quantity</label> <input min="1" max="100" name="count[]" value="{{ $data['count'] }}" type="number"></td>
                                     
                                     
                                     <td class="product_total">BDT {!! $row_total = $cart_price * $data['count'] !!}</td>

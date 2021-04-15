@@ -12,6 +12,15 @@ body, .header_middle, .sticky-header .sticky{
     background: #fff;
 }
 
+.show_all{
+	background: #9b5a29;
+    padding: 6px 10px;
+    margin-top: 5px;
+    margin-left: 15px;
+    color: #fff !important;
+    border-radius: 5px;
+}
+
 #map {
     height: 400px;
     /* The height is 400 pixels */

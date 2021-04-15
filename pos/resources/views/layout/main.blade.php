@@ -344,6 +344,7 @@
                   @if($purchase_return_index_permission_active)
                   <li id="purchase-return-menu"><a href="{{route('return-purchase.index')}}">{{trans('file.Purchase')}}</a></li>
                   @endif
+				  <li id="sale-damage-menu"><a href="{{route('damage-sale.index')}}">Damage Goods</a></li>
                 </ul>
               </li>
               @endif

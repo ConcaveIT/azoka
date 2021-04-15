@@ -186,6 +186,11 @@ Route::group(['middleware' => ['auth', 'active', 'optimizeImages']], function() 
 	Route::get('return-purchase/product_return/{id}','ReturnPurchaseController@productReturnData');
 	Route::post('return-purchase/deletebyselection', 'ReturnPurchaseController@deleteBySelection');
 	Route::resource('return-purchase', 'ReturnPurchaseController');
+	
+	//Damaged goods listings
+	Route::resource('damage-sale', 'DamageController');
+	
+	
 
 	Route::get('report/product_quantity_alert', 'ReportController@productQuantityAlert')->name('report.qtyAlert');
 	Route::get('report/product_expiry_alert', 'ReportController@productExpiryAlert')->name('report.exprAlert');

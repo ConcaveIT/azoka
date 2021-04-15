@@ -382,9 +382,19 @@ class SslCommerzPaymentController extends Controller
             $product->update([
                 'qty' => $product_quantity
             ]);
-
-            $product_variant_data = DB::table('product_variants')->select('id', 'variant_id', 'qty')
+			
+			
+			if($cart[$i]['size_id']){
+				$product_variant_data = DB::table('product_variants')->select('id', 'variant_id', 'qty')
                 ->where('product_id', $product->id)->where('id', $cart[$i]['size_id']);
+			}elseif($cart[$i]['weight_id']){
+				$product_variant_data = DB::table('product_variants')->select('id', 'variant_id', 'qty')
+                ->where('product_id', $product->id)->where('id', $cart[$i]['weight_id']);
+			}elseif($cart[$i]['color_id']){
+				$product_variant_data = DB::table('product_variants')->select('id', 'variant_id', 'qty')
+                ->where('product_id', $product->id)->where('id', $cart[$i]['color_id']);
+			}
+            
 
             //deduct product variant quantity if exist
             if($product_variant_data->first()) {

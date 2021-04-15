@@ -118,15 +118,18 @@ $('#addToCart').click(function (e) {
             count: count,
         },
         success: function (data) {
-            //console.log(data);
-            sweetAlter('success', 'Product added to cart');
-            $('.cart_sub_total').text('BDT ' + data.cart_sub_total);
-            let cart_total_amount = parseInt(data.cart_sub_total);
-            $('.cart_total_amount').text('BDT ' + cart_total_amount);
-            $('.cart_items_quantity').text(data.cart_items_quantity);
-            setTimeout(function(){
-                location.reload();
-             }, 1000);
+            if(data == 0){
+				sweetAlter('error', 'Stock is limited for this product. Please try to add less item(s).');
+			}else{
+				sweetAlter('success', 'Product added to cart');
+				$('.cart_sub_total').text('BDT ' + data.cart_sub_total);
+				let cart_total_amount = parseInt(data.cart_sub_total);
+				$('.cart_total_amount').text('BDT ' + cart_total_amount);
+				$('.cart_items_quantity').text(data.cart_items_quantity);
+				setTimeout(function(){
+					location.reload();
+				 }, 1000);
+			}
         }
     });
 
@@ -190,20 +193,6 @@ $('input[name="weight"]').click(function () {
     var original_and_variant = parseInt(original_price)+parseInt(additional_price)+parseInt(size_price)+parseInt(type_price)+parseInt(color_price);
     $('.old_price ').text('BDT '+original_and_variant);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -394,35 +383,23 @@ $('#customerRating').on('click', function (e) {
 
 $('input[name="location"]').on('change', function () {
     value = $(this).val();
+	console.log(cart_items_quantity); 
+	var calQty = Math.ceil(cart_items_quantity/5);
+	if(calQty < 1) calQty = 1;
+	
 
-    switch (value) {
+    switch (value) { 
         case 'inside_dhaka':
 
-            shipping_cost = 80;
-            loop = cart_weight;
-
-            while (loop > 1000) {
-                shipping_cost += 20
-                loop -= 1000;
-            }
-
+			shipping_cost = calQty * 80;
             $('#shippingCost').text('BDT ' + shipping_cost);
 
 
             break;
 
         case 'outside_dhaka':
-
-            shipping_cost = 150;
-            loop = cart_weight;
-
-            while (loop > 1000) {
-                shipping_cost += 20
-                loop -= 1000;
-            }
-
+            shipping_cost = calQty * 150;
             $('#shippingCost').text('BDT ' + shipping_cost);
-
             break;
     }
 
@@ -436,7 +413,7 @@ $('input[name="location"]').on('change', function () {
             shipping_cost: shipping_cost
         },
         success: function (data) {
-            console.log(data);
+           // console.log(data);
         }
     });
 
@@ -461,6 +438,12 @@ $(document).on('click','#searchIcon',function(){
     $(this).next('.dropdown_search').toggle();
     document.getElementById("dropdown_search_input").focus();
 });
+
+$(document).on('click','.variant',function(){
+	$('#qty_display').html($(this).attr('data-quantity'));
+	$('#count').attr('data-cart-limit',$(this).attr('data-quantity'));
+});
+
 
 
 

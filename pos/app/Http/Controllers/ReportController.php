@@ -516,6 +516,11 @@ class ReportController extends Controller
         $sale = Sale::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->selectRaw(implode(',', $query1))->get();
         
         $WebSale = DB::table('orders')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('status','Confirmed')->sum('amount');
+		
+        $WebSaleSSL = DB::table('orders')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('status','Confirmed')->where('type','ssl')->sum('amount');
+        $WebSaleCOD = DB::table('orders')->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->where('status','Confirmed')->where('type','cod')->sum('amount');
+		
+		
         $total_sale = Sale::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->count();
         $total_sale = $total_sale + $WebSale;
         $return = Returns::whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->selectRaw(implode(',', $query2))->get();
@@ -589,7 +594,7 @@ class ReportController extends Controller
             $warehouse_expense[] = Expense::where('warehouse_id', $warehouse->id)->whereDate('created_at', '>=' , $start_date)->whereDate('created_at', '<=' , $end_date)->sum('amount');
         }
 
-        return view('report.profit_loss', compact('purchase', 'total_purchase', 'sale','WebSale', 'total_sale', 'return', 'purchase_return', 'total_return', 'total_purchase_return', 'expense', 'payroll', 'total_expense', 'total_payroll', 'payment_recieved', 'payment_recieved_number', 'cash_payment_sale', 'cheque_payment_sale', 'credit_card_payment_sale', 'gift_card_payment_sale', 'paypal_payment_sale', 'deposit_payment_sale', 'payment_sent', 'payment_sent_number', 'cash_payment_purchase', 'cheque_payment_purchase', 'credit_card_payment_purchase', 'warehouse_name', 'warehouse_sale', 'warehouse_purchase', 'warehouse_return', 'warehouse_purchase_return', 'warehouse_expense', 'start_date', 'end_date'));
+        return view('report.profit_loss', compact('purchase','WebSaleSSL','WebSaleCOD','total_purchase', 'sale','WebSale', 'total_sale', 'return', 'purchase_return', 'total_return', 'total_purchase_return', 'expense', 'payroll', 'total_expense', 'total_payroll', 'payment_recieved', 'payment_recieved_number', 'cash_payment_sale', 'cheque_payment_sale', 'credit_card_payment_sale', 'gift_card_payment_sale', 'paypal_payment_sale', 'deposit_payment_sale', 'payment_sent', 'payment_sent_number', 'cash_payment_purchase', 'cheque_payment_purchase', 'credit_card_payment_purchase', 'warehouse_name', 'warehouse_sale', 'warehouse_purchase', 'warehouse_return', 'warehouse_purchase_return', 'warehouse_expense', 'start_date', 'end_date'));
     }
 
     public function productReport(Request $request)

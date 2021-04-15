@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Session;
 
 class FrontendController extends Controller
 {
-    //
+  
     public function index(){
         $featuredProdIds = Product::where('featured', 1)->pluck('id');
         $featuredCatIds = Product::where('featured', 1)->pluck('category_id');
@@ -49,12 +49,17 @@ class FrontendController extends Controller
         ));
     }
 
-    public function shop($slug)
+    public function shop(Request $request,$slug)
     {
         $shop = Category::where('slug', $slug)->first();
         $categories = Category::all();
-        $data = $shop->products()->paginate(9);
-
+		
+		if($request->show == 'all'){
+			$data = $shop->products()->get();
+		}else{
+			$data = $shop->products()->paginate(9);
+		}
+		
         return view('frontend.shop', compact('categories', 'data', 'shop'));
     }
 

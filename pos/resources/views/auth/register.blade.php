@@ -84,7 +84,7 @@
               </div>
               <div class="form-group-material">
                 <select name="role_id" required class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="Select Role...">
-                  @foreach($lims_role_list as $role)
+                  @foreach($lims_role_list ?? '' as $role)
                       <option value="{{$role->id}}">{{$role->name}}</option>
                   @endforeach
                 </select>

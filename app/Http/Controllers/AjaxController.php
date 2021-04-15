@@ -74,15 +74,52 @@ class AjaxController extends Controller
 
     
     public function add_cart(Request $request) {
-        // var_dump($request->color_id);
-        // var_dump($request->size_id);
-        // var_dump($request->type_id);
-        // exit;
+
         $cart = session()->get('cart');
         $cart_sub_total = session()->get('cart_sub_total') ??  0;
         $cart_weight = session()->get('cart_weight') ??  0;
+        $product = Product::find($request->product_id);
+        $product_price = price_after_offer_or_not($product->id, $product->price, $product->starting_date, $product->last_date);
+	
+		$product_variation = DB::table('product_variants')->whereIn('id', [$request->color_id, $request->size_id, $request->type_id, $request->weight_id])->get();
+		
+		if($product->is_variant != 1){
+			$limit = $product->qty;
+			if($request->count > $limit){
+				return 0;
+			}
+		}else{
+			
+			$limit = $product_variation[0]->qty;
+			if($cart){
+				foreach($cart as $key => $val){
+					if($val['product_id'] == $request->product_id){
+						if($request->color_id){
+							$oldCartItems = isset($cart[$key]['color_id']) ? $cart[$key]['count'] : 0 ;
+							$requestedItem =  $request->count + $oldCartItems;
+						}elseif($request->size_id){
+							$oldCartItems = isset($cart[$key]['size_id']) ? $cart[$key]['count'] : 0 ;
+							$requestedItem =  $request->count + $oldCartItems;
+						}elseif($request->weight_id){
+							$oldCartItems = isset($cart[$key]['weight_id']) ? $cart[$key]['count'] : 0 ;
+							$requestedItem =  $request->count + $oldCartItems;
+						}
+						
+						if($requestedItem > $limit){
+							return 0;
+						}
+						
+					}
+					
+				}
+			}else{
+				if($request->count > $limit){
+					return 0;
+				}
+			}
 
-        $cart[] = array(
+		}
+		$cart[] = array(
             'cart_id' => uniqid(),
             'product_id' => $request->product_id,
             'color_id' => $request->color_id,
@@ -91,12 +128,9 @@ class AjaxController extends Controller
             'weight_id' => $request->weight_id,
             'count' => $request->count,
         );
-        $product = Product::find($request->product_id);
-        $product_price = price_after_offer_or_not($product->id, $product->price, $product->starting_date, $product->last_date);
-        $product_variation = DB::table('product_variants')->whereIn('id', [$request->color_id, $request->size_id, $request->type_id, $request->weight_id])->get();
+		
+		
 
-
-       
         foreach ($product_variation as $variation) {
             $product_price += $variation->additional_price;
             $cart_weight += intval($variation->item_code);
@@ -162,15 +196,23 @@ class AjaxController extends Controller
                 } else {
                     $data['count'] = $request->count[$i];
                 }
+				
+
+				if($product->is_variant == 1){
+					$limit = $request->variant_qty;
+					if($request->count[$i] > $limit){
+						$data['count'] = $request->variant_qty;
+						session()->put('msg', 'Product quantity exceeded and set to maximum');
+					}else{
+						$data['count'] = $request->count[$i];
+					}
+				}
+				
+
                 $newCart[] = $data;
-            // var_dump($request->size_id[$i]);
-            // exit;
+
                 $product_price = price_after_offer_or_not($product->id, $product->price, $product->starting_date, $product->last_date) + ($color ? $color->additional_price : 0) + ($size ? $size->additional_price : 0) + ($type ? $type->additional_price : 0) + ($weight ? $weight->additional_price : 0);
-                // $product_variation = DB::table('product_variants')->where('id', $request->size_id[$i])->get();
-                // foreach ($product_variation as $variation) {
-                //     $product_price += $variation->additional_price;
-                //     $cart_weight += intval($variation->item_code);
-                // }
+
                 $product_price *= $data['count'];
                 $cart_sub_total += $product_price;
             }

@@ -1,93 +1,6 @@
 @extends('layout.main')
 @section('content')
-<!-- this portion is for demo only -->
-<!-- <style type="text/css">
 
-  nav.navbar a.menu-btn {
-    padding: 12 !important;
-  }
-  .color-switcher {
-      background-color: #fff;
-      border: 1px solid #e5e5e5;
-      border-radius: 2px;
-      padding: 10px;
-      position: fixed;
-      top: 150px;
-      transition: all 0.4s ease 0s;
-      width: 150px;
-      z-index: 99999;
-  }
-  .hide-color-switcher {
-      right: -150px;
-  }
-  .show-color-switcher {
-      right: -1px;
-  }
-  .color-switcher a.switcher-button {
-      background: #fff;
-      border-top: #e5e5e5;
-      border-right: #e5e5e5;
-      border-bottom: #e5e5e5;
-      border-left: #e5e5e5;
-      border-style: solid solid solid solid;
-      border-width: 1px 1px 1px 1px;
-      border-radius: 2px;
-      color: #161616;
-      cursor: pointer;
-      font-size: 22px;
-      width: 45px;
-      height: 45px;
-      line-height: 43px;
-      position: absolute;
-      top: 24px;
-      left: -44px;
-      text-align: center;
-  }
-  .color-switcher a.switcher-button i {
-    line-height: 40px
-  }
-  .color-switcher .color-switcher-title {
-      color: #666;
-      padding: 0px 0 8px;
-  }
-  .color-switcher .color-switcher-title:after {
-      content: "";
-      display: block;
-      height: 1px;
-      margin: 14px 0 0;
-      position: relative;
-      width: 20px;
-  }
-  .color-switcher .color-list a.color {
-      cursor: pointer;
-      display: inline-block;
-      height: 30px;
-      margin: 10px 0 0 1px;
-      width: 28px;
-  }
-  .purple-theme {
-      background-color: #ffd700;
-  }
-  .green-theme {
-      background-color: #1abc9c;
-  }
-  .blue-theme {
-      background-color: #3498db;
-  }
-  .dark-theme {
-      background-color: #34495e;
-  }
-</style>
-<div class="color-switcher hide-color-switcher">
-    <a class="switcher-button"><i class="fa fa-cog fa-spin"></i></a>
-    <h5>{{trans('file.Theme')}}</h5>
-    <div class="color-list">
-        <a class="color purple-theme" title="purple" data-color="default.css"></a>
-        <a class="color green-theme" title="green" data-color="green.css"></a>
-        <a class="color blue-theme" title="blue" data-color="blue.css"></a>
-        <a class="color dark-theme" title="dark" data-color="dark.css"></a>
-    </div>
-</div> -->
 @if(session()->has('not_permitted'))
   <div class="alert alert-danger alert-dismissible text-center"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{ session()->get('not_permitted') }}</div>
 @endif
@@ -410,13 +323,17 @@
                         </tr>
                       </thead>
                       <tbody>
+					   @php $i =0; @endphp
                         @foreach($best_selling_qty as $key=>$sale)
-                        <?php $product = DB::table('products')->find($sale->product_id); ?>
-                        <tr>
-                          <td>{{$key + 1}}</td>
-                          <td>{{$product->name}}<br>[{{$product->code}}]</td>
-                          <td>{{$sale->sold_qty}}</td>
-                        </tr>
+                        @php $product = DB::table('products')->find($sale->product_id); @endphp
+							@if($product)
+							@php $i++; @endphp	
+							<tr>
+							  <td>{{$i}}</td>
+							  <td>{{$product->name}}<br>[{{$product->code}}]</td>
+							  <td>{{$sale->sold_qty}}</td>
+							</tr>
+							@endif
                         @endforeach
                       </tbody>
                     </table>
@@ -442,13 +359,17 @@
                         </tr>
                       </thead>
                       <tbody>
+						@php $i =0; @endphp
                         @foreach($best_selling_qty_web as $key=>$sale)
-                        <?php $product = DB::table('products')->find($sale->product_id); ?>
-                        <tr>
-                          <td>{{$key + 1}}</td>
-                          <td>{{$product->name}}<br>[{{$product->code}}]</td>
-                          <td>{{$sale->sold_qty}}</td>
-                        </tr>
+                        @php $product = DB::table('products')->find($sale->product_id); @endphp
+							@if($product)
+							@php $i++; @endphp
+								<tr>
+								  <td>{{$i}}</td>
+								  <td>{{$product->name}}<br>[{{$product->code}}]</td>
+								  <td>{{$sale->sold_qty}}</td>
+								</tr>
+							@endif
                         @endforeach
                       </tbody>
                     </table>
@@ -475,13 +396,17 @@
                         </tr>
                       </thead>
                       <tbody>
+						@php $i =0; @endphp
                         @foreach($yearly_best_selling_qty as $key => $sale)
                         <?php $product = DB::table('products')->find($sale->product_id); ?>
+						@if($product)
+						@php $i++; @endphp
                         <tr>
-                          <td>{{$key + 1}}</td>
+                          <td>{{$i}}</td>
                           <td>{{$product->name}}<br>[{{$product->code}}]</td>
                           <td>{{$sale->sold_qty}}</td>
                         </tr>
+						@endif
                         @endforeach
                       </tbody>
                     </table>
@@ -507,13 +432,17 @@
                         </tr>
                       </thead>
                       <tbody>
+					  @php $i =0; @endphp
                         @foreach($yearly_best_selling_qty_web as $key => $sale)
-                        <?php $product = DB::table('products')->find($sale->product_id); ?>
-                        <tr>
-                          <td>{{$key + 1}}</td>
-                          <td>{{$product->name}}<br>[{{$product->code}}]</td>
-                          <td>{{$sale->sold_qty}}</td>
-                        </tr>
+                        @php  $product = DB::table('products')->find($sale->product_id); @endphp
+							@if($product)
+							@php $i++; @endphp
+								<tr>
+								  <td>{{$i}}</td>
+								  <td>{{$product->name}}<br>[{{$product->code}}]</td>
+								  <td>{{$sale->sold_qty}}</td>
+								</tr>
+							@endif
                         @endforeach
                       </tbody>
                     </table>
@@ -541,20 +470,23 @@
                         </tr>
                       </thead>
                       <tbody>
+						@php $i =0; @endphp
                         @foreach($yearly_best_selling_price as $key => $sale)
                         <?php $product = DB::table('products')->find($sale->product_id); ?>
-                        <tr>
-                          <td>{{$key + 1}}</td>
-                          <td>{{$product->name}}<br>[{{$product->code}}]</td>
-                          <td>{{number_format((float)$sale->total_price, 2, '.', '')}}</td>
-                        </tr>
+						@if($product)
+							@php $i++; @endphp
+							<tr>
+							  <td>{{$i}}</td>
+							  <td>{{$product->name}}<br>[{{$product->code}}]</td>
+							  <td>{{number_format((float)$sale->total_price, 2, '.', '')}}</td>
+							</tr>
+						@endif
                         @endforeach
                       </tbody>
                     </table>
                   </div>
               </div>
             </div>
-			
 			
 			<div class="col-md-6">
               <div class="card">
@@ -574,13 +506,17 @@
                         </tr>
                       </thead>
                       <tbody>
+						@php $i =0; @endphp
                         @foreach($yearly_best_selling_price_web as $key => $sale)
                         <?php $product = DB::table('products')->find($sale->product_id); ?>
+						@if($product)
+						@php $i++; @endphp
                         <tr>
-                          <td>{{$key + 1}}</td>
+                          <td>{{$i}}</td>
                           <td>{{$product->name}}<br>[{{$product->code}}]</td>
                           <td>{{number_format((float)$sale->total_price, 2, '.', '')}}</td>
                         </tr>
+						@endif
                         @endforeach
                       </tbody>
                     </table>

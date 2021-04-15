@@ -172,9 +172,6 @@ padding:2px 2px 2px 5px !important;
                                    @endif
                            </div>
 
-                            {{-- <div class="product_desc">
-                                {!! $product->product_details !!}
-                            </div> --}}
                             @php
                                 $size_variant = DB::table('product_variants')->where('product_id', $product->id)->where('variant_by', 'size')->get();
                                 $color_variant = DB::table('product_variants')->where('product_id', $product->id)->where('variant_by', 'color')->get();
@@ -238,20 +235,23 @@ padding:2px 2px 2px 5px !important;
                             </div>
                             @endif
 
-
+							
+	
                             <div class="mt-2">
-                                <label for="">Inventory : {!! $product->qty > 0 ? $product->qty : 0 !!} products available</label>
+                                <label for="">Inventory : <span id="qty_display">{!! $product->qty > 0 ? $product->qty : 0 !!}</span> products available</label>
                             </div>
                             <div class="product_variant quantity">
                                 <label>quantity</label>
-                                <input min="1" max="100000" id="count" value="1" type="number">
+                                <input min="1" max="100" id="count" value="1" type="number" data-cart-limit="{{$product->qty}}" >
                                 @if($product->qty > 0)
                                 <a href="javascript:void(0)" class="customButton px-2" id="addToCart">add to cart</a>
                                 @else
                                 <p class="ml-2 font-bold text-danger">Out of Stock!</p>
                                 @endif
-
                             </div>
+							
+							
+							
                             <div class=" product_d_action">
                                <ul>
                                    <li><a href="javascript:void(0)" class="wishlistButton" data-id="{{ $product->id }}" title="Add to Wishlist">+ Add to Wishlist</a></li>
@@ -564,7 +564,6 @@ setInterval(function(){
  }, 3000);  
 
 </script>
-
 
 
 

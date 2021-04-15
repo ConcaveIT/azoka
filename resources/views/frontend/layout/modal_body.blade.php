@@ -141,14 +141,14 @@
                     @endif
 
                     <div class="mt-2">
-                        <label for="">Inventory : {!! $data->qty > 0 ? $data->qty : 0 !!} products available</label>
+                        <label for="">Inventory : <span id="qty_display">{!! $data->qty > 0 ? $data->qty : 0 !!}</span> products available</label>
                     </div>
                         <div class="modal_add_to_cart">
                             <form action="">
                                 <input type="hidden" id="productPrice" value="{{price_after_offer_or_not($data->id, $data->price, $data->starting_date, $data->last_date) }}">
                         
                                 <input type="hidden" id="productId_modal" value="{{ $data->id }}" required>
-                                <input min="1" max="100" step="1" value="1" id="count_modal" type="number">
+                                <input min="1" max="100" step="1" value="1" id="count_modal" type="number" data-cart-limit="{{$data->qty}}" >
 
                                 @if($data->qty > 0)
                                     <a id="addToCartModal" class="customButton py-3 px-5">Add to Cart</a>
@@ -255,6 +255,11 @@
         typeId = $("input[name='type']:checked").val();
         weightId = $("input[name='weight']:checked").val();
         count = $('#count_modal').val();
+		var limit = $('#count').attr('data-cart-limit');
+		if(count > limit){
+			alert('Stock is limited. You can add maximum '+limit+' item(s) in your cart of this product.');
+			return;
+		}
 
         $.ajax({
             type: 'POST',
@@ -269,16 +274,25 @@
                 count: count,
             },
             success: function (data) {
-                sweetAlter('success', 'Product added to cart');
-                $('.cart_sub_total').text('BDT ' + data.cart_sub_total);
-                let cart_total_amount = parseInt(data.cart_sub_total);
-                $('.cart_total_amount').text('BDT ' + cart_total_amount);
-                $('.cart_items_quantity').text(data.cart_items_quantity);
-                setTimeout(function(){
-                    location.reload();
-                }, 1000);
+				if(data == 0){
+					sweetAlter('error', 'Stock is limited for this product. Please try to add less item(s).');
+				}else{
+									sweetAlter('success', 'Product added to cart');
+					$('.cart_sub_total').text('BDT ' + data.cart_sub_total);
+					let cart_total_amount = parseInt(data.cart_sub_total);
+					$('.cart_total_amount').text('BDT ' + cart_total_amount);
+					$('.cart_items_quantity').text(data.cart_items_quantity);
+					setTimeout(function(){
+						location.reload();
+					}, 1000);
+				}
             }
         });
 
     });
+	
+	$(document).on('click','.variant',function(){
+		$('#qty_display').html($(this).attr('data-quantity'));
+		$('#count').attr('data-cart-limit',$(this).attr('data-quantity'));
+	});
 </script>

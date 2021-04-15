@@ -529,20 +529,28 @@ class ProductController extends Controller
                 $lims_variant_data = Variant::find($product_variant_warehouse_data->variant_id);
                 $warehouse_name[] = $lims_warehouse_data->name;
                 $variant_name[] = $lims_variant_data->name;
-                $variant_qty[] = $product_variant_warehouse_data->qty;
+                $variant_qty[] = DB::table('product_variants')->where('variant_id',$product_variant_warehouse_data->variant_id)->first()->qty; 
             }
         }
         else{
             $lims_product_warehouse_data = Product_Warehouse::where('product_id', $id)->get();
         }
-        foreach ($lims_product_warehouse_data as $key => $product_warehouse_data) {
+		
+		
+		$product = Product::find($lims_product_data->id);
+		$totalQty = $product->qty;
+	
+		$qty[] = $totalQty;
+			
+      /*  foreach ($lims_product_warehouse_data as $key => $product_warehouse_data) {
             $lims_warehouse_data = Warehouse::find($product_warehouse_data->warehouse_id);
             $warehouse[] = $lims_warehouse_data->name;
             $qty[] = $product_warehouse_data->qty;
-        }
+        } */
 
         $product_warehouse = [$warehouse, $qty];
         $product_variant_warehouse = [$warehouse_name, $variant_name, $variant_qty];
+		
         return ['product_warehouse' => $product_warehouse, 'product_variant_warehouse' => $product_variant_warehouse];
     }
 
